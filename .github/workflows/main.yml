@@ -27,3 +27,15 @@ jobs:
         with:
           name: QRCodeScanner.apk
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Build Release APK
+        run: ./gradlew bundleRelease
+
+      - name: Deploy to Play Store
+        uses: wzieba/Distribution@v1
+        with:
+          serviceAccountEmail: ${{ secrets.PLAY_STORE_EMAIL }}
+          serviceAccountJson: ${{ secrets.PLAY_STORE_JSON }}
+          packageName: 'com.plcoding.qrcodescannercompose'
+          track: 'internal'
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
