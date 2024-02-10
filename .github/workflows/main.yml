@@ -1,48 +1,29 @@
-name: Deploy to Play Store & Pilot
-
+name: AndroidBuild
 on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
   pull_request:
+    branches: [ main ]
+  push:
     branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "11"
+          cache: "gradle"
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+      - name: Build with Gradle
+        run: ./gradlew build
 
-    steps:
-    - name: Upload Release to Play Store
-      uses: wzieba/Fake-Google-Play@v1
-      with:
-        serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-        packageName: your.package.name
-        track: production
-        releaseDirectory: app/build/outputs/bundle/release
-
-    - name: Pilot Release (Optional)
-      uses: wzieba/Fake-Google-Play@v1
-      with:
-        serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-        packageName: your.package.name
-        track: pilot
-        releaseDirectory: app/build/outputs/bundle/release
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: QRCodeScanner.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
