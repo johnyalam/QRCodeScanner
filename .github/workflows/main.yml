@@ -32,10 +32,9 @@ jobs:
         run: ./gradlew bundleRelease
 
       - name: Deploy to Play Store
-        uses: wzieba/Distribution@v1
+        uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountEmail: ${{ secrets.PLAY_STORE_EMAIL }}
-          serviceAccountJson: ${{ secrets.PLAY_STORE_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_JSON }}
           packageName: 'com.plcoding.qrcodescannercompose'
-          track: 'internal'
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: 'internal'
