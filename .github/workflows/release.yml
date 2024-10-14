@@ -41,11 +41,12 @@ jobs:
           cache: 'gradle'
 
       - name: Version Bump
-        uses: casz/android-versioning-action@v1.3.0
+        uses: chkfung/android-version-actions@v1.2.3
         with:
-          gradlePath: app/build.gradle.kts
-          versionCode: ${{ github.run_number }}
-          versionName: 1.0.1
+          gradlePath: app/build.gradle.kts  # Path to your Gradle file (Kotlin DSL)
+          versionCode: ${{ github.run_number }}  # Use GitHub's run number to auto-increment versionCode
+          versionName: 1.0.1  # Set the desired versionName
+
 
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
