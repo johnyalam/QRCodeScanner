@@ -41,12 +41,9 @@ jobs:
           cache: 'gradle'
 
       - name: Version Bump
-        uses: chkfung/android-version-actions@v1.2.3
-        with:
-          gradlePath: app/build.gradle.kts  # Path to your Gradle file (Kotlin DSL)
-          versionCode: ${{ github.run_number }}  # Use GitHub's run number to auto-increment versionCode
-          versionName: 1.0.1  # Set the desired versionName
-
+        run: |
+          sed -i 's/versionCode = [0-9]\+/versionCode = ${{ github.run_number }}/' app/build.gradle.kts
+          sed -i 's/versionName = "[^"]\+"/versionName = "1.0.1"/' app/build.gradle.kts
 
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
