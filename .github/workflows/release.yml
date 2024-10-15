@@ -42,8 +42,8 @@ jobs:
 
       - name: Version Bump
         run: |
-          sed -i 's/versionCode = [0-9]\+/versionCode = ${{ github.run_number }}/' app/build.gradle.kts
-          sed -i 's/versionName = "[^"]\+"/versionName = "1.0.1"/' app/build.gradle.kts
+          sed -i 's/versionCode = [0-9]\+/versionCode = ${{ github.run_number }}/' app/build.gradle
+          sed -i 's/versionName = "[^"]\+"/versionName = "1.0.1"/' app/build.gradle
 
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
