@@ -48,6 +48,11 @@ jobs:
       - name: Assemble Release Bundle
         run: ./gradlew bundleRelease
 
+      - name: Set up Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./app/qrcode-release-key-store.jks
+
+
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
         with:
